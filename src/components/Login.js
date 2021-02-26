@@ -1,10 +1,10 @@
 import React from 'react';
 
-import Container from './Container';
-import TextField from './TextField';
-import Main from './Main';
-import Sidebar from './Sidebar';
-import Button from './Button';
+import Container from './styled-components/Container';
+import TextField from './styled-components/TextField';
+import Main from './styled-components/Main';
+import Sidebar from './styled-components/Sidebar';
+import Button from './styled-components/Button';
 
 export default function Login() {
   return (
