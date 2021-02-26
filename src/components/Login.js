@@ -12,6 +12,55 @@ export default function Login() {
 
   const email = useFormInput('');
   const password = useFormInput('');
+  const passwordVerification = useFormInput('');
+
+  const validationRules = {
+    email: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+
+    // Password must have at least 8 characters; must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number; can contain special characters.
+    password: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
+  };
+
+  const validateForm = () => {
+    let errorCounter = 0;
+
+    if (email.value) {
+      const regex = validationRules.email;
+      if (!regex.test(email.value)) {
+        errorCounter++;
+        email.setError('Email is invalid.');
+      }
+    }
+    if (password.value) {
+      const regex = validationRules.password;
+      if (!regex.test(password.value)) {
+        errorCounter++;
+        password.setError('Password is unvalid.');
+      } else if (passwordVerification.value !== password.value) {
+        errorCounter++;
+        passwordVerification.setError('Passwords are not identical.');
+      }
+    }
+    return errorCounter === 0;
+  };
+
+  const onSignUp = async () => {
+    const isValidForm = await validateForm();
+    if (!isValidForm) return;
+
+    const formData = new FormData();
+
+    if (email.value) {
+      formData.append('email', email.value);
+    }
+    if (password.value) {
+      formData.append('password', password.value);
+    }
+  };
+
+  const onSignIn = () => {
+    console.log('Sign in');
+  };
 
   return (
     <Container>
@@ -38,9 +87,16 @@ export default function Login() {
             label="Repeat password"
             type="password"
             variant="outlined"
+            onChange={passwordVerification.onChange}
           />
         )}
-        <Button>{form === 'login' ? 'Sign in' : 'Sign up'}</Button>
+
+        {form === 'login' ? (
+          <Button onClick={onSignIn}>Sign in</Button>
+        ) : (
+          <Button onClick={onSignUp}>Sign up</Button>
+        )}
+
         <p>
           {form === 'login' ? (
             <Fragment>
