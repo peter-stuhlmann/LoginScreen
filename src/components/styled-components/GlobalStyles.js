@@ -20,6 +20,17 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     font-size: 18px;
     font-family: 'Open Sans';
+
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      
+      .MuiCircularProgress-colorPrimary {
+        color: #fd9707;
+      }
+    }
   }
 `;
 
