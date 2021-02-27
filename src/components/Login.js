@@ -31,6 +31,23 @@ export default function Login() {
   const validateForm = () => {
     let errorCounter = 0;
 
+    if (password.value === '') {
+      errorCounter++;
+      setSnackBarSettings({
+        severity: 'error',
+        message: 'Password is required.',
+      });
+      setOpenSnackbar(true);
+    }
+    if (email.value === '') {
+      errorCounter++;
+      setSnackBarSettings({
+        severity: 'error',
+        message: 'Email is required.',
+      });
+      setOpenSnackbar(true);
+    }
+
     if (email.value) {
       const regex = validationRules.email;
       if (!regex.test(email.value)) {
@@ -48,7 +65,7 @@ export default function Login() {
         errorCounter++;
         setSnackBarSettings({
           severity: 'error',
-          message: 'Password is unvalid.',
+          message: 'Password is invalid.',
         });
         setOpenSnackbar(true);
       } else if (passwordVerification.value !== password.value) {
@@ -60,7 +77,13 @@ export default function Login() {
         setOpenSnackbar(true);
       }
     }
-    return errorCounter === 0;
+
+    errorCounter === 0 &&
+      setSnackBarSettings({
+        severity: 'success',
+        message: 'You have successfully signed up.',
+      });
+    setOpenSnackbar(true);
   };
 
   const onSignUp = async () => {
