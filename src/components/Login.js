@@ -78,12 +78,14 @@ export default function Login() {
       }
     }
 
-    errorCounter === 0 &&
+    if (errorCounter === 0) {
       setSnackBarSettings({
         severity: 'success',
         message: 'You have successfully signed up.',
       });
-    setOpenSnackbar(true);
+      setOpenSnackbar(true);
+      setForm('login');
+    }
   };
 
   const onSignUp = async () => {
