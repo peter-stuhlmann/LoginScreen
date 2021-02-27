@@ -25,7 +25,7 @@ const Main = styled.main`
     width: 100%;
     max-width: 400px;
 
-    &:last-child {
+    &.form-change {
       color: rgba(0, 0, 0, 0.54);
       margin-top: 75px;
 
@@ -34,6 +34,18 @@ const Main = styled.main`
         font-weight: 600;
         cursor: pointer;
       }
+    }
+  }
+
+  .MuiSnackbar-anchorOriginBottomCenter {
+    left: calc(37.5%);
+    right: auto;
+    bottom: 24px;
+    transform: translateX(-50%);
+    white-space: nowrap;
+
+    @media (max-width: 480px) {
+      left: 50%;
     }
   }
 `;

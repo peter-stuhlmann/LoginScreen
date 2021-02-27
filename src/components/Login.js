@@ -6,6 +6,7 @@ import Main from './styled-components/Main';
 import Sidebar from './styled-components/Sidebar';
 import Button from './styled-components/Button';
 import useFormInput from '../utils/useFormInput';
+import Alert from './Alerts';
 
 export default function Login() {
   const [form, setForm] = useState('login');
@@ -13,6 +14,12 @@ export default function Login() {
   const email = useFormInput('');
   const password = useFormInput('');
   const passwordVerification = useFormInput('');
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackBarSettings, setSnackBarSettings] = useState({
+    severity: '',
+    message: '',
+  });
 
   const validationRules = {
     email: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
@@ -28,17 +35,29 @@ export default function Login() {
       const regex = validationRules.email;
       if (!regex.test(email.value)) {
         errorCounter++;
-        email.setError('Email is invalid.');
+        setSnackBarSettings({
+          severity: 'error',
+          message: 'Email is invalid.',
+        });
+        setOpenSnackbar(true);
       }
     }
     if (password.value) {
       const regex = validationRules.password;
       if (!regex.test(password.value)) {
         errorCounter++;
-        password.setError('Password is unvalid.');
+        setSnackBarSettings({
+          severity: 'error',
+          message: 'Password is unvalid.',
+        });
+        setOpenSnackbar(true);
       } else if (passwordVerification.value !== password.value) {
         errorCounter++;
-        passwordVerification.setError('Passwords are not identical.');
+        setSnackBarSettings({
+          severity: 'error',
+          message: 'Passwords are not identical.',
+        });
+        setOpenSnackbar(true);
       }
     }
     return errorCounter === 0;
@@ -97,7 +116,7 @@ export default function Login() {
           <Button onClick={onSignUp}>Sign up</Button>
         )}
 
-        <p>
+        <p className="form-change">
           {form === 'login' ? (
             <Fragment>
               Create a new Account.{' '}
@@ -110,6 +129,14 @@ export default function Login() {
             </Fragment>
           )}
         </p>
+        {openSnackbar && (
+          <Alert
+            open={true}
+            setOpen={setOpenSnackbar}
+            severity={snackBarSettings.severity}
+            message={snackBarSettings.message}
+          />
+        )}
       </Main>
       <Sidebar />
     </Container>
